@@ -8,7 +8,7 @@ class Tree
 
   def initialize(arr)
     @arr = arr
-    @root = nil
+    @root = build_tree(arr)
   end
 
   def build_tree(array)
@@ -23,4 +23,16 @@ class Tree
 
     root
   end
+
+  def pretty_print(node = @root, prefix = '', is_left = true)
+    pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
+    puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.value}"
+    pretty_print(node.left, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left
+  end
 end
+
+tree = Tree.new([1, 2, 3, 4, 5, 6, 7, 8])
+
+tree.build_tree(tree.arr)
+
+tree.pretty_print
