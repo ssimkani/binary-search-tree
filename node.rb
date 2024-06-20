@@ -12,3 +12,10 @@ class Node
     @right = right
   end
 end
+
+# Class that converts an integer to a node
+class Integer
+  def to_node
+    Node.new(self)
+  end
+end
