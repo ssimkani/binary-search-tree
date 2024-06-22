@@ -68,10 +68,21 @@ class Tree
   def find_min(root)
     root.left.nil? ? root : find_min(root.left)
   end
+
+  def find(data, root = @root)
+    return if root.nil?
+
+    if data < root.data
+      find(data, root.left)
+    elsif data > root.data
+      find(data, root.right)
+    else
+      root
+    end
+  end
 end
 
 tree = Tree.new([15, 6, 18, 3, 7, 17, 20, 2, 4, 13, 9])
 
 tree.build_tree(tree.arr)
-puts tree.delete(1)
 tree.pretty_print
