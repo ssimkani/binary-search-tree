@@ -2,6 +2,8 @@
 
 require_relative 'node'
 
+require 'pry-byebug'
+
 # Class that represents the binary search tree
 class Tree
   attr_accessor :root, :arr
@@ -99,9 +101,24 @@ class Tree
     end
     arr
   end
+
+  def preorder(node = @root, arr = [], &block)
+    return if node.nil?
+
+    if block_given?
+      yield node
+    else
+      arr << node.data
+    end
+    preorder(node.left, arr, &block)
+    preorder(node.right, arr, &block)
+    arr
+  end
 end
 
 tree = Tree.new([15, 6, 18, 3, 7, 17, 20, 2, 4, 13, 9])
 
 tree.build_tree(tree.arr)
 tree.pretty_print
+
+p tree.preorder
