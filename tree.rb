@@ -26,23 +26,52 @@ class Tree
 
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
-    puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.value}"
+    puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
     pretty_print(node.left, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left
   end
 
-  def insert(value, root = @root)
+  def insert(data, root = @root)
     if root.nil?
-      @root = value.to_node
-    elsif value < root.value
-      root.left.nil? ? root.left = value.to_node : insert(value, root.left)
+      @root = data.to_node
+    elsif data < root.data
+      root.left.nil? ? root.left = data.to_node : insert(data, root.left)
     else
-      root.right.nil? ? root.right = value.to_node : insert(value, root.right)
+      root.right.nil? ? root.right = data.to_node : insert(data, root.right)
     end
+  end
+
+  def delete(data, root = @root)
+    if root.nil?
+      return
+    elsif data < root.data
+      root.left = delete(data, root.left)
+    elsif data > root.data
+      root.right = delete(data, root.right)
+    elsif root.left.nil? && root.right.nil?
+      return nil
+
+    elsif root.left.nil?
+      return root.right
+
+    elsif root.right.nil?
+      return root.left
+
+    elsif root.left && root.right
+      temp = find_min(root.right)
+      root.data = temp.data
+      root.right = delete(temp.data, root.right)
+    end
+
+    root
+  end
+
+  def find_min(root)
+    root.left.nil? ? root : find_min(root.left)
   end
 end
 
 tree = Tree.new([15, 6, 18, 3, 7, 17, 20, 2, 4, 13, 9])
 
 tree.build_tree(tree.arr)
-
+puts tree.delete(1)
 tree.pretty_print
