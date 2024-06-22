@@ -80,6 +80,25 @@ class Tree
       root
     end
   end
+
+  def level_order
+    return if root.nil?
+
+    queue = [root]
+    arr = []
+    until queue.empty?
+      node = queue.shift
+      if block_given?
+        yield node
+      else
+        arr << node.data
+      end
+      queue << node.left if node.left
+
+      queue << node.right if node.right
+    end
+    arr
+  end
 end
 
 tree = Tree.new([15, 6, 18, 3, 7, 17, 20, 2, 4, 13, 9])
