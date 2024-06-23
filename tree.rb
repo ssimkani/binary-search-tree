@@ -83,18 +83,14 @@ class Tree
     end
   end
 
-  def level_order
+  def level_order(&block)
     return if root.nil?
 
     queue = [root]
     arr = []
     until queue.empty?
       node = queue.shift
-      if block_given?
-        yield node
-      else
-        arr << node.data
-      end
+      process(node, arr, &block)
       queue << node.left if node.left
 
       queue << node.right if node.right
@@ -105,14 +101,36 @@ class Tree
   def preorder(node = @root, arr = [], &block)
     return if node.nil?
 
+    process(node, arr, &block)
+    preorder(node.left, arr, &block)
+    preorder(node.right, arr, &block)
+    arr
+  end
+
+  def inorder(node = @root, arr = [], &block)
+    return if node.nil?
+
+    inorder(node.left, arr, &block)
+    process(node, arr, &block)
+    inorder(node.right, arr, &block)
+    arr
+  end
+
+  def postorder(node = @root, arr = [], &block)
+    return if node.nil?
+
+    postorder(node.left, arr, &block)
+    postorder(node.right, arr, &block)
+    process(node, arr, &block)
+    arr
+  end
+
+  def process(node, arr)
     if block_given?
       yield node
     else
       arr << node.data
     end
-    preorder(node.left, arr, &block)
-    preorder(node.right, arr, &block)
-    arr
   end
 end
 
@@ -121,4 +139,4 @@ tree = Tree.new([15, 6, 18, 3, 7, 17, 20, 2, 4, 13, 9])
 tree.build_tree(tree.arr)
 tree.pretty_print
 
-p tree.preorder
+p tree.inorder
