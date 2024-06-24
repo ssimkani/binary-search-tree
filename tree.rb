@@ -155,13 +155,18 @@ class Tree
       depth - 1
     end
   end
+
+  def balanced?(root = @root)
+    return true if root.nil?
+
+    left_height = height(root.left)
+    right_height = height(root.right)
+
+    (left_height - right_height).abs <= 1 && balanced?(root.left) && balanced?(root.right)
+  end
 end
 
 tree = Tree.new([15, 6, 18, 3, 7, 17, 20, 2, 4, 13, 9])
 
 tree.build_tree(tree.arr)
 tree.pretty_print
-
-p tree.height(9)
-
-p tree.depth(9)
