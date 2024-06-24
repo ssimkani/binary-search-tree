@@ -134,6 +134,7 @@ class Tree
   end
 
   def height(node)
+    node = find(node) if node.is_a?(Integer)
     return -1 if node.nil?
 
     left_height = height(node.left)
@@ -161,4 +162,6 @@ tree = Tree.new([15, 6, 18, 3, 7, 17, 20, 2, 4, 13, 9])
 tree.build_tree(tree.arr)
 tree.pretty_print
 
-p tree.depth(17)
+p tree.height(9)
+
+p tree.depth(9)
