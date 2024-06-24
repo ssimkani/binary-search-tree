@@ -13,6 +13,7 @@ class Tree
     @root = build_tree(arr)
   end
 
+  # Builds a balanced binary search tree
   def build_tree(array)
     return if array.empty?
 
@@ -26,12 +27,14 @@ class Tree
     root
   end
 
+  # Prints out tree
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
     pretty_print(node.left, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left
   end
 
+  # Inserts a node as a leaf
   def insert(data, root = @root)
     if root.nil?
       @root = data.to_node
@@ -42,6 +45,7 @@ class Tree
     end
   end
 
+  # Deletes a node from the tree
   def delete(data, root = @root)
     if root.nil?
       return
@@ -67,10 +71,12 @@ class Tree
     root
   end
 
+  # Finds the minimum value to be used in the delete method
   def find_min(root)
     root.left.nil? ? root : find_min(root.left)
   end
 
+  # Finds the node with a given value
   def find(data, root = @root)
     return if root.nil?
 
@@ -83,6 +89,7 @@ class Tree
     end
   end
 
+  # Traverses the tree in level order
   def level_order(&block)
     return if root.nil?
 
@@ -98,6 +105,7 @@ class Tree
     arr
   end
 
+  # Traverses the tree in preorder, inorder, and postorder
   def preorder(node = @root, arr = [], &block)
     return if node.nil?
 
@@ -125,6 +133,7 @@ class Tree
     arr
   end
 
+  # Helper method for processing a node
   def process(node, arr)
     if block_given?
       yield node
@@ -133,6 +142,7 @@ class Tree
     end
   end
 
+  # Finds the height of the tree
   def height(node)
     node = find(node) if node.is_a?(Integer)
     return -1 if node.nil?
@@ -143,6 +153,7 @@ class Tree
     left_height > right_height ? left_height + 1 : right_height + 1
   end
 
+  # Finds the depth of a given node
   def depth(node, root = @root, depth = 0)
     return if node.nil?
 
@@ -156,6 +167,7 @@ class Tree
     end
   end
 
+  # Checks if tree is balanced
   def balanced?(root = @root)
     return true if root.nil?
 
@@ -165,6 +177,7 @@ class Tree
     (left_height - right_height).abs <= 1 && balanced?(root.left) && balanced?(root.right)
   end
 
+  # Rebalances tree
   def rebalance
     @root = build_tree(level_order)
   end
