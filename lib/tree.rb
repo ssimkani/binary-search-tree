@@ -2,8 +2,6 @@
 
 require_relative 'node'
 
-require 'pry-byebug'
-
 # Class that represents the binary search tree
 class Tree
   attr_accessor :root, :arr
