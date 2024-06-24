@@ -141,6 +141,19 @@ class Tree
 
     left_height > right_height ? left_height + 1 : right_height + 1
   end
+
+  def depth(node, root = @root, depth = 0)
+    return if node.nil?
+
+    depth += 1
+    if node < root.data
+      depth(node, root.left, depth)
+    elsif node > root.data
+      depth(node, root.right, depth)
+    else
+      depth - 1
+    end
+  end
 end
 
 tree = Tree.new([15, 6, 18, 3, 7, 17, 20, 2, 4, 13, 9])
@@ -148,4 +161,4 @@ tree = Tree.new([15, 6, 18, 3, 7, 17, 20, 2, 4, 13, 9])
 tree.build_tree(tree.arr)
 tree.pretty_print
 
-p tree.height(tree.root)
+p tree.depth(17)
