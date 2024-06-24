@@ -164,9 +164,24 @@ class Tree
 
     (left_height - right_height).abs <= 1 && balanced?(root.left) && balanced?(root.right)
   end
+
+  def rebalance
+    @root = build_tree(level_order)
+  end
 end
 
 tree = Tree.new([15, 6, 18, 3, 7, 17, 20, 2, 4, 13, 9])
 
 tree.build_tree(tree.arr)
-tree.pretty_print
+
+tree.insert(1)
+tree.insert(8)
+tree.insert(5)
+tree.insert(12)
+tree.insert(105)
+tree.insert(214)
+tree.insert(168)
+
+p tree.balanced?
+tree.rebalance
+p tree.balanced?
