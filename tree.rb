@@ -132,6 +132,15 @@ class Tree
       arr << node.data
     end
   end
+
+  def height(node)
+    return -1 if node.nil?
+
+    left_height = height(node.left)
+    right_height = height(node.right)
+
+    left_height > right_height ? left_height + 1 : right_height + 1
+  end
 end
 
 tree = Tree.new([15, 6, 18, 3, 7, 17, 20, 2, 4, 13, 9])
@@ -139,4 +148,4 @@ tree = Tree.new([15, 6, 18, 3, 7, 17, 20, 2, 4, 13, 9])
 tree.build_tree(tree.arr)
 tree.pretty_print
 
-p tree.inorder
+p tree.height(tree.root)
